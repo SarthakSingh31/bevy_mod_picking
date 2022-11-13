@@ -11,12 +11,16 @@ categories = ["game-engines", "rendering"]
 resolver = "2"
 
 [dependencies]
-bevy = { version = "0.9", default-features = false, features = ["render"] }
+bevy = { git = "https://github.com/bevyengine/bevy", branch = "main", default-features = false, features = [
+    "bevy_render",
+    "bevy_sprite",
+    "bevy_ui",
+] }
 
-bevy_mod_raycast = "0.7"
+bevy_mod_raycast = { path = "../bevy_mod_raycast" }
 
 [dev-dependencies]
-bevy = { version = "0.9", default-features = false, features = [
+bevy = { git = "https://github.com/bevyengine/bevy", branch = "main", features = [
     "bevy_pbr",
     "bevy_winit",
     "bevy_ui",

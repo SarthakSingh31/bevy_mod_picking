@@ -1,20 +1,19 @@
 use bevy::{
     diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},
     prelude::*,
-    window::PresentMode,
+    window::{PresentMode, WindowResolution},
 };
 use bevy_mod_picking::*;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins.set(WindowPlugin {
-            window: WindowDescriptor {
+            primary_window: Some(Window {
                 title: "bevy_mod_picking stress test".to_string(),
-                width: 800.,
-                height: 600.,
-                present_mode: PresentMode::AutoNoVsync, // Reduce input latency
+                resolution: WindowResolution::new(800., 600.),
+                present_mode: PresentMode::AutoNoVsync, // Reduces input latency
                 ..default()
-            },
+            }),
             ..default()
         }))
         .add_plugins(DefaultPickingPlugins) // <- Adds picking, interaction, and highlighting
@@ -36,10 +35,13 @@ fn setup(
     let tris_total = tris_sphere * (half_width as usize * 2).pow(3);
     info!("Total tris: {}, Tris per mesh: {}", tris_total, tris_sphere);
 
-    let mesh_handle = meshes.add(Mesh::from(shape::Icosphere {
-        radius: 0.2,
-        subdivisions,
-    }));
+    let mesh_handle = meshes.add(
+        Mesh::try_from(shape::Icosphere {
+            radius: 0.2,
+            subdivisions,
+        })
+        .unwrap(),
+    );
 
     let matl_handle = materials.add(StandardMaterial {
         perceptual_roughness: 0.5,

@@ -8,10 +8,10 @@ use bevy_mod_picking::{
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins.set(WindowPlugin {
-            window: WindowDescriptor {
-                present_mode: PresentMode::AutoNoVsync, // Reduce input latency
+            primary_window: Some(Window {
+                present_mode: PresentMode::AutoNoVsync, // Reduces input latency
                 ..default()
-            },
+            }),
             ..default()
         }))
         .add_plugins(DefaultPickingPlugins) // <- Adds picking, interaction, and highlighting
